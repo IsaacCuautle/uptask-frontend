@@ -1,10 +1,11 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
 
+import "./index.css";
+import Router from "./router";
 
-createRoot(document.getElementById('root')!).render(
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <h1 className='text-6xl'>UpTask</h1>
-  </StrictMode>,
-)
+    <Router />
+  </StrictMode>
+);
