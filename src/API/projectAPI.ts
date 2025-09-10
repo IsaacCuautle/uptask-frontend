@@ -1,8 +1,13 @@
 import api from "@/lib/axios";
-import type { ProjectFormData } from "../types";
+import {
+  dashboardProjectSechema,
+  projectSchema,
+  type Project,
+  type ProjectFormData,
+} from "../types";
 import { isAxiosError } from "axios";
 
-export const createProject = async(formData: ProjectFormData) => {
+export const createProject = async (formData: ProjectFormData) => {
   try {
     const { data } = await api.post("/projects", formData);
     return data;
@@ -12,16 +17,30 @@ export const createProject = async(formData: ProjectFormData) => {
     }
   }
   return;
-}
+};
 
-export const getAllProjects = async() => {
+export const getAllProjects = async () => {
   try {
     const { data } = await api("/projects");
-    return data;
+    const response = dashboardProjectSechema.safeParse(data);
+    if (response.success) return response.data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {
       throw new Error(`Ocurrio un error:\n${error.response.data.error}`);
     }
   }
   return;
-}
+};
+
+export const getProjectByID = async (id: Project["_id"]) => {
+  try {
+    const { data } = await api(`/projects/${id}`);
+    const response = projectSchema.safeParse(data);    
+    if (response.success) return response.data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(`Ocurrio un error:\n${error.response.data.error}`);
+    }
+  }
+  return;
+};
