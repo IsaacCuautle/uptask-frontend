@@ -35,7 +35,30 @@ export const getAllProjects = async () => {
 export const getProjectByID = async (id: Project["_id"]) => {
   try {
     const { data } = await api(`/projects/${id}`);
-    const response = projectSchema.safeParse(data);    
+    const response = projectSchema.safeParse(data);
+
+    if (response.success) return response.data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(`Ocurrio un error:\n${error.response.data.error}`);
+    }
+  }
+  return;
+};
+
+type ProjectAPIType = {
+  formData: ProjectFormData;
+  projectID: Project["_id"];
+};
+
+export const updateProject = async ({
+  formData,
+  projectID,
+}: ProjectAPIType) => {
+  try {
+    const { data } = await api.put(`/projects/${projectID}`, formData);
+    const response = projectSchema.safeParse(data);
+
     if (response.success) return response.data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {
