@@ -56,10 +56,8 @@ export const updateProject = async ({
   projectID,
 }: ProjectAPIType) => {
   try {
-    const { data } = await api.put(`/projects/${projectID}`, formData);
-    const response = projectSchema.safeParse(data);
-
-    if (response.success) return response.data;
+    const { data } = await api.put<string>(`/projects/${projectID}`, formData);
+    return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {
       throw new Error(`Ocurrio un error:\n${error.response.data.error}`);
