@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 
 export default function ProjectDetailsView() {
+  
   const navigate = useNavigate();
   const params = useParams();
   const projectID = params.projectID!.toString();
@@ -31,7 +32,7 @@ export default function ProjectDetailsView() {
           <button
             type="button"
             className="bg-purple-400 hover:bg-purple-500 px-10 py-3 text-white text-xl font-bold cursor-pointer transition-colors"
-            onClick={() => navigate(`?newTask=true`)}
+            onClick={() => navigate(location.pathname+`?newTask=true`)}
           >
             Agregar Tarea
           </button>
