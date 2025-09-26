@@ -38,8 +38,8 @@ export default function EditProjectForm({
       toast.error(error.message);
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries({queryKey: ['projects']});
-      queryClient.invalidateQueries({queryKey: ['editProject', projectID]});
+      queryClient.invalidateQueries({ queryKey: ["projects"] });
+      queryClient.invalidateQueries({ queryKey: ["editProject", projectID] });
       toast.success(data);
       navigate("/");
     },
