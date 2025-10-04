@@ -6,11 +6,14 @@ import {
   Transition,
   TransitionChild,
 } from "@headlessui/react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import { useMutation } from "@tanstack/react-query";
 
 import TaskForm from "./TaskForm";
 import type { TaskFormData } from "@/types/index";
+import { createTask } from "@/API/tasksAPI";
 
 export default function AddTaskModal() {
   const location = useLocation();
@@ -26,13 +29,35 @@ export default function AddTaskModal() {
 
   const {
     register,
+    reset,
     handleSubmit,
     formState: { errors },
   } = useForm({ defaultValues: initialValues });
 
   const handleCreateTask = (formData: TaskFormData) => {
-    console.log(formData);
+    const data = {
+      formData,
+      projectID,
+    };
+    
+    return mutate(data);
   };
+
+  // Obtener projectID
+  const params = useParams();
+  const projectID = params.projectID!;
+
+  const { mutate } = useMutation({
+    mutationFn: createTask,
+    onSuccess: (data) => {
+      toast.success(data);
+      reset();
+      navigate(location.pathname, { replace: true });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 
   return (
     <>

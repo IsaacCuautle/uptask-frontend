@@ -16,8 +16,8 @@ export const taskSchema = z.object({
   status: taskStatusSchema,
 });
 
-export type Task = z.infer<typeof taskSchema>
-export type TaskFormData = Pick<Task,"taskName" | "description">
+export type Task = z.infer<typeof taskSchema>;
+export type TaskFormData = Pick<Task, "taskName" | "description">;
 
 // Projects
 export const projectSchema = z.object({
@@ -25,6 +25,7 @@ export const projectSchema = z.object({
   projectName: z.string(),
   clientName: z.string(),
   description: z.string(),
+  tasks: z.array(taskSchema),
 });
 
 export const dashboardProjectSechema = z.array(

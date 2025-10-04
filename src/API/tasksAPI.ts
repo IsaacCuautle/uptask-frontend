@@ -13,8 +13,9 @@ export async function createTask({
   projectID,
 }: Pick<TaskAPI, "formData" | "projectID">) {
   try {
-    const url = `localhost:4000/api/projects/${projectID}/task`;
+    const url = `/projects/${projectID}/tasks`;
     const { data } = await api.post<string>(url, formData);
+    console.log(data);
 
     return data;
   } catch (error) {
