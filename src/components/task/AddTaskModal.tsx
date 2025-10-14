@@ -9,7 +9,7 @@ import {
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import TaskForm from "./TaskForm";
 import type { TaskFormData } from "@/types/index";
@@ -39,17 +39,21 @@ export default function AddTaskModal() {
       formData,
       projectID,
     };
-    
+
     return mutate(data);
   };
 
-  // Obtener projectID
+  // Get ProjectID
   const params = useParams();
   const projectID = params.projectID!;
 
+  const queryClient = useQueryClient();
+
+  // Invalidate the  editProject query and calls the createTask function
   const { mutate } = useMutation({
     mutationFn: createTask,
     onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["editProject", projectID] });
       toast.success(data);
       reset();
       navigate(location.pathname, { replace: true });

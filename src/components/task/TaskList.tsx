@@ -50,7 +50,7 @@ export default function TaskList({ tasks }: TaskListProps) {
             <h3
               className={`
                 capitalize 
-                text-xl border 
+                text-xl border modal
                 border-slate-300 
                 bg-white 
                 p-3 
